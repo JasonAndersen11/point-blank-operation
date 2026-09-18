@@ -23,7 +23,7 @@ load_dotenv(Path(__file__).parent / ".env")
 # Add src to path
 sys.path.insert(0, str(Path(__file__).parent))
 
-app = FastAPI(title="Rank & Rent Research System")
+app = FastAPI(title="Point Blank Operation")
 
 static_dir = Path(__file__).parent / "static"
 app.mount("/static", StaticFiles(directory=str(static_dir)), name="static")

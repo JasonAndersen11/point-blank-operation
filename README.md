@@ -1,6 +1,6 @@
-# Rank & Rent Research System
+# Point Blank Operation
 
-An AI-powered research pipeline that automates the Flat Fee Mastery / Digital Landlords rank-and-rent methodology. Built with CrewAI, FastAPI, and a real-time streaming UI.
+Point Blank Operation is an AI-powered research pipeline based on the Flat Fee Mastery / Digital Landlords rank-and-rent research system. Built with CrewAI, FastAPI, and a real-time streaming UI.
 
 ## What It Does
 
@@ -26,5 +26,5 @@ Runs a 6-phase research pipeline to find and validate rank-and-rent opportunitie
 
 ### 1. Clone the repo
 ```bash
-git clone https://github.com/JasonAndersen11/rank-rent-crew.git
-cd rank-rent-crew
+git clone https://github.com/JasonAndersen11/point-blank-operation.git
+cd point-blank-operation
