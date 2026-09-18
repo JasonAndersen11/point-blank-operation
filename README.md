@@ -28,3 +28,16 @@ Runs a 6-phase research pipeline to find and validate rank-and-rent opportunitie
 ```bash
 git clone https://github.com/JasonAndersen11/point-blank-operation.git
 cd point-blank-operation
+```
+
+## Team kickoff UI
+
+To start a search from a browser without running this pipeline locally, use the Point Blank Operation page in [`team-ui/`](team-ui/README.md):
+
+```bash
+cd team-ui
+python3 -m pip install -r requirements.txt
+python3 server.py
+```
+
+Open [http://127.0.0.1:8765](http://127.0.0.1:8765). Copy `config.example.json` to `config.json` and fill the Grok Bot webhook URL and key first. Results go to the Point Blank Operation Grok Bot group chat.

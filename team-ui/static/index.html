@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Point Blank Operation</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Syne:wght@700;800&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #0b0c0e;
+      --bg-2: #12141a;
+      --card: #16181f;
+      --line: rgba(255, 255, 255, 0.08);
+      --line-strong: rgba(255, 255, 255, 0.14);
+      --text: #f4f1ea;
+      --muted: #9aa0ad;
+      --faint: #6d7380;
+      --accent: #d7ff3c;
+      --accent-ink: #14160c;
+      --danger: #ff6b6b;
+      --ok: #7dffb3;
+      --focus: #d7ff3c;
+      --radius: 18px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html, body { min-height: 100%; }
+
+    body {
+      font-family: Outfit, system-ui, sans-serif;
+      background:
+        radial-gradient(1200px 600px at 80% -10%, rgba(215, 255, 60, 0.08), transparent 55%),
+        radial-gradient(900px 500px at -10% 110%, rgba(90, 140, 255, 0.08), transparent 50%),
+        var(--bg);
+      color: var(--text);
+      line-height: 1.5;
+    }
+
+    .wrap {
+      width: min(560px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 48px 0 64px;
+    }
+
+    header {
+      margin-bottom: 28px;
+    }
+
+    .mark {
+      width: 40px;
+      height: 40px;
+      border: 1px solid var(--line-strong);
+      border-radius: 12px;
+      display: grid;
+      place-items: center;
+      margin-bottom: 18px;
+      background: var(--bg-2);
+    }
+
+    .mark svg { display: block; }
+
+    .eyebrow {
+      font-size: 12px;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--faint);
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+
+    h1 {
+      font-family: Syne, Outfit, sans-serif;
+      font-size: clamp(28px, 5vw, 36px);
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      line-height: 1.1;
+    }
+
+    .lede {
+      margin-top: 10px;
+      color: var(--muted);
+      font-size: 15px;
+    }
+
+    .card {
+      background: linear-gradient(180deg, rgba(255,255,255,0.03), transparent 40%), var(--card);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 22px;
+    }
+
+    form { display: grid; gap: 16px; }
+
+    .row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    label {
+      display: block;
+      font-size: 13px;
+      font-weight: 600;
+      margin-bottom: 6px;
+    }
+
+    .req {
+      color: var(--accent);
+      font-weight: 700;
+    }
+
+    input {
+      width: 100%;
+      height: 46px;
+      border-radius: 12px;
+      border: 1px solid var(--line-strong);
+      background: #0e1015;
+      color: var(--text);
+      padding: 0 14px;
+      font: inherit;
+      font-size: 15px;
+      outline: none;
+      transition: border-color 0.15s ease, box-shadow 0.15s ease;
+    }
+
+    input::placeholder { color: #5c6370; }
+
+    input:focus {
+      border-color: var(--focus);
+      box-shadow: 0 0 0 3px rgba(215, 255, 60, 0.16);
+    }
+
+    .actions {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-top: 4px;
+    }
+
+    .primary {
+      height: 48px;
+      border: 0;
+      border-radius: 12px;
+      background: var(--accent);
+      color: var(--accent-ink);
+      font: inherit;
+      font-weight: 700;
+      font-size: 15px;
+      cursor: pointer;
+      letter-spacing: -0.01em;
+    }
+
+    .primary:hover { filter: brightness(1.05); }
+    .primary:disabled { opacity: 0.6; cursor: wait; }
+
+    .ghost {
+      height: 40px;
+      border: 1px solid var(--line-strong);
+      border-radius: 12px;
+      background: transparent;
+      color: var(--muted);
+      font: inherit;
+      font-size: 13px;
+      font-weight: 500;
+      cursor: pointer;
+    }
+
+    .ghost:hover { color: var(--text); border-color: var(--muted); }
+    .ghost:disabled { opacity: 0.6; cursor: wait; }
+
+    .status {
+      min-height: 1.4em;
+      font-size: 14px;
+      color: var(--muted);
+    }
+
+    .status.ok { color: var(--ok); }
+    .status.err { color: var(--danger); }
+
+    .pipeline {
+      margin-top: 22px;
+      padding: 22px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--bg-2);
+    }
+
+    .pipeline h2 {
+      font-size: 13px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--faint);
+      font-weight: 600;
+      margin-bottom: 14px;
+    }
+
+    ol {
+      list-style: none;
+      display: grid;
+      gap: 0;
+    }
+
+    li {
+      display: grid;
+      grid-template-columns: 28px 1fr;
+      gap: 12px;
+      align-items: start;
+      padding: 9px 0;
+      border-top: 1px solid var(--line);
+      color: var(--text);
+      font-size: 15px;
+    }
+
+    li:first-child { border-top: 0; padding-top: 0; }
+    li:last-child { padding-bottom: 0; }
+
+    .step {
+      width: 28px;
+      height: 28px;
+      border-radius: 999px;
+      border: 1px solid var(--line-strong);
+      display: grid;
+      place-items: center;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--muted);
+    }
+
+    .note {
+      margin-top: 16px;
+      padding: 12px 14px;
+      border-radius: 12px;
+      background: rgba(215, 255, 60, 0.07);
+      border: 1px solid rgba(215, 255, 60, 0.16);
+      color: var(--text);
+      font-size: 14px;
+    }
+
+    footer {
+      margin-top: 18px;
+      color: var(--faint);
+      font-size: 12px;
+    }
+
+    @media (max-width: 560px) {
+      .wrap { padding: 28px 0 48px; }
+      .row { grid-template-columns: 1fr; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      * { transition: none !important; }
+    }
+  </style>
+</head>
+<body>
+  <main class="wrap">
+    <header>
+      <div class="mark" aria-hidden="true">
+        <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+          <circle cx="9" cy="9" r="6.25" stroke="#d7ff3c" stroke-width="1.4"/>
+          <circle cx="9" cy="9" r="2" fill="#d7ff3c"/>
+          <path d="M9 1.5v3M9 13.5v3M1.5 9h3M13.5 9h3" stroke="#d7ff3c" stroke-width="1.4" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <p class="eyebrow">Grok Bot team</p>
+      <h1>Point Blank Operation</h1>
+      <p class="lede">Start a Flat Fee Mastery market search. The local server posts to the Grok Bot webhook — the sender key never leaves this machine.</p>
+    </header>
+
+    <section class="card">
+      <form id="search-form" novalidate>
+        <div>
+          <label for="niche">Niche <span class="req">*</span></label>
+          <input id="niche" name="niche" required autocomplete="off" placeholder="e.g. dumpster rental" />
+        </div>
+        <div class="row">
+          <div>
+            <label for="state">State <span class="req">*</span></label>
+            <input id="state" name="state" required autocomplete="off" placeholder="TX or Texas" maxlength="60" />
+          </div>
+          <div>
+            <label for="city">City</label>
+            <input id="city" name="city" autocomplete="off" placeholder="Optional" />
+          </div>
+        </div>
+        <div class="actions">
+          <button class="primary" id="start-btn" type="submit">Start search</button>
+          <button class="ghost" id="ping-btn" type="button">Test webhook</button>
+        </div>
+        <p class="status" id="status" role="status"></p>
+      </form>
+    </section>
+
+    <section class="pipeline" aria-labelledby="pipeline-heading">
+      <h2 id="pipeline-heading">6-phase pipeline</h2>
+      <ol>
+        <li><span class="step">1</span><span>Keyword Research</span></li>
+        <li><span class="step">2</span><span>City Selection</span></li>
+        <li><span class="step">3</span><span>Competitor Research</span></li>
+        <li><span class="step">4</span><span>Due Diligence</span></li>
+        <li><span class="step">5</span><span>Prospect Builder</span></li>
+        <li><span class="step">6</span><span>Ad Copy</span></li>
+      </ol>
+      <p class="note">Results appear in the Point Blank Operation Grok Bot group chat. This page only kicks off the run.</p>
+    </section>
+
+    <footer>Local only · POST /api/start · default port 8765</footer>
+  </main>
+
+  <script>
+    const form = document.getElementById("search-form");
+    const statusEl = document.getElementById("status");
+    const startBtn = document.getElementById("start-btn");
+    const pingBtn = document.getElementById("ping-btn");
+
+    function setStatus(message, kind) {
+      statusEl.textContent = message;
+      statusEl.className = "status" + (kind ? " " + kind : "");
+    }
+
+    function payloadFromForm() {
+      const niche = document.getElementById("niche").value.trim();
+      const state = document.getElementById("state").value.trim();
+      const city = document.getElementById("city").value.trim();
+      const body = { niche, state };
+      if (city) body.city = city;
+      return body;
+    }
+
+    async function postJson(path, body) {
+      const res = await fetch(path, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(body),
+      });
+      let data = {};
+      try { data = await res.json(); } catch (_) {}
+      return { res, data };
+    }
+
+    form.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      const body = payloadFromForm();
+      if (!body.niche || !body.state) {
+        setStatus("Niche and state are required.", "err");
+        return;
+      }
+      startBtn.disabled = true;
+      pingBtn.disabled = true;
+      setStatus("Sending start_search…");
+      try {
+        const { res, data } = await postJson("/api/start", body);
+        if (res.ok && data.ok) {
+          setStatus("Search started. Watch the Point Blank Operation Grok Bot group chat for results.", "ok");
+        } else {
+          setStatus(data.error || "Could not start the search.", "err");
+        }
+      } catch (_) {
+        setStatus("Could not reach the local server.", "err");
+      } finally {
+        startBtn.disabled = false;
+        pingBtn.disabled = false;
+      }
+    });
+
+    pingBtn.addEventListener("click", async () => {
+      startBtn.disabled = true;
+      pingBtn.disabled = true;
+      setStatus("Sending ping…");
+      try {
+        const { res, data } = await postJson("/api/ping", {});
+        if (res.ok && data.ok) {
+          setStatus("Webhook ping succeeded.", "ok");
+        } else {
+          setStatus(data.error || "Ping failed.", "err");
+        }
+      } catch (_) {
+        setStatus("Could not reach the local server.", "err");
+      } finally {
+        startBtn.disabled = false;
+        pingBtn.disabled = false;
+      }
+    });
+  </script>
+</body>
+</html>
